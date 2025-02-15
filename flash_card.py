@@ -51,7 +51,7 @@ class FlashCard(tk.Canvas):
         self.setup_card()
 
     def flip_card(self):
-        self.front_side = not self.front_side
+        self.front_side = False
         self.setup_card()
 
     def setup_card(self):

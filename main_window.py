@@ -7,6 +7,7 @@ from data import Data
 W_TITLE = "Flashy"
 W_PADX = 50
 W_PADY = 50
+W_WAIT_TIME = 3000
 
 # Button images
 B_BGR_RIGHT = "images/right.png"
@@ -20,14 +21,20 @@ class MainWindow:
 
         self.flash_card = FlashCard()
 
-        self.btn_right = FlashButton(B_BGR_RIGHT, command=self.get_new_card)
-        self.btn_wrong = FlashButton(B_BGR_WRONG, command=self.get_new_card)
+        self.btn_right = FlashButton(B_BGR_RIGHT, command=self.btn_clicked)
+        self.btn_wrong = FlashButton(B_BGR_WRONG, command=self.btn_clicked)
 
         self.flash_card.grid(row=0, column=0, columnspan=2)
         self.btn_wrong.grid(row=1, column=0)
         self.btn_right.grid(row=1, column=1)
 
         self.data = Data()
+        self.timer_action = None
 
     def get_new_card(self):
         self.flash_card.set_words_pair(self.data.get_random_pair())
+        self.timer_action = self.window.after(W_WAIT_TIME, self.flash_card.flip_card)
+
+    def btn_clicked(self):
+        self.window.after_cancel(self.timer_action)
+        self.get_new_card()
