@@ -38,6 +38,7 @@ class FlashCard(tk.Canvas):
         self.setup_card()
 
     def set_words_pair(self, pair):
+        print(pair)
         for index, key in enumerate(pair):
             if index == 0:
                 self.front_lang = key
