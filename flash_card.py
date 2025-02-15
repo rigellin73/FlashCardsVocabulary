@@ -10,6 +10,8 @@ BGR_FRONT = "images/card_front.png"
 BGR_BACK = "images/card_back.png"
 
 # Text settings
+T_FILL_FRONT = "black"
+T_FILL_BACK = "white"
 T_LANG_POSX = C_WIDTH / 2
 T_LANG_POSY = 150
 T_LANG_FONT = ("Arial", 40, "italic")
@@ -22,10 +24,11 @@ class FlashCard(tk.Canvas):
     def __init__(self):
         super().__init__()
 
-        self.bgr_image_back = tk.PhotoImage(file=BGR_FRONT)
+        self.bgr_image_front = tk.PhotoImage(file=BGR_FRONT)
+        self.bgr_image_back = tk.PhotoImage(file=BGR_BACK)
 
         self.config(width=C_WIDTH, height=C_HEIGHT, bg=BGR_COLOR, highlightthickness=0)
-        self.create_image(C_WIDTH / 2, C_HEIGHT / 2, image=self.bgr_image_back)
+        self.canvas_image = self.create_image(C_WIDTH / 2, C_HEIGHT / 2, image=self.bgr_image_front)
 
         self.lang_text = self.create_text(T_LANG_POSX, T_LANG_POSY, font=T_LANG_FONT)
         self.word_text = self.create_text(T_WORD_POSX, T_WORD_POSY, font=T_WORD_FONT)
@@ -38,7 +41,6 @@ class FlashCard(tk.Canvas):
         self.setup_card()
 
     def set_words_pair(self, pair):
-        print(pair)
         for index, key in enumerate(pair):
             if index == 0:
                 self.front_lang = key
@@ -56,8 +58,10 @@ class FlashCard(tk.Canvas):
 
     def setup_card(self):
         if self.front_side:
-            self.itemconfig(self.lang_text, text=self.front_lang)
-            self.itemconfig(self.word_text, text=self.front_word)
+            self.itemconfig(self.lang_text, text=self.front_lang, fill=T_FILL_FRONT)
+            self.itemconfig(self.word_text, text=self.front_word, fill=T_FILL_FRONT)
+            self.itemconfig(self.canvas_image, image=self.bgr_image_front)
         else:
-            self.itemconfig(self.lang_text, text=self.back_lang)
-            self.itemconfig(self.word_text, text=self.back_word)
+            self.itemconfig(self.lang_text, text=self.back_lang, fill=T_FILL_BACK)
+            self.itemconfig(self.word_text, text=self.back_word, fill=T_FILL_BACK)
+            self.itemconfig(self.canvas_image, image=self.bgr_image_back)
