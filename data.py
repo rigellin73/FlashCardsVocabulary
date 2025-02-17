@@ -17,7 +17,12 @@ class Data:
         self.source_language = languages[SOURCE_LANG_COLUMN_ID]
         self.target_language = languages[TARGET_LANG_COLUMN_ID]
         self.dictionary = self.raw_data.to_dict(orient="records")
-        print(self.dictionary)
 
     def get_random_pair(self):
         return choice(self.dictionary)
+
+    def remove_pair(self, pair):
+        i = self.raw_data[(self.raw_data[self.source_language] == pair[self.source_language])].index
+        self.raw_data.drop(i, inplace=True)
+        self.dictionary.remove(pair)
+        self.raw_data.to_csv(TO_LEARN_FILE, index=False)

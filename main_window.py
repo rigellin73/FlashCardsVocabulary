@@ -29,16 +29,19 @@ class MainWindow:
         self.btn_check.grid(row=1, column=1)
 
         self.data = Data()
+        self.current_pair = []
         self.timer_action = None
 
     def get_new_card(self):
         if self.timer_action:
             self.window.after_cancel(self.timer_action)
-        self.flash_card.set_words_pair(self.data.get_random_pair())
+        self.current_pair = self.data.get_random_pair()
+        self.flash_card.set_words_pair(self.current_pair)
         self.timer_action = self.window.after(W_WAIT_TIME, self.flash_card.flip_card)
 
     def btn_x_clicked(self):
         self.get_new_card()
 
     def btn_check_clicked(self):
+        self.data.remove_pair(self.current_pair)
         self.get_new_card()
