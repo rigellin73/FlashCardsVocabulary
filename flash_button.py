@@ -10,6 +10,3 @@ class FlashButton(tk.Button):
 
         self.config(image=self.bgr_image, highlightthickness=0, command=command)
         self.image = self.bgr_image
-
-    def btn_clicked(self):
-        print("Button clicked")

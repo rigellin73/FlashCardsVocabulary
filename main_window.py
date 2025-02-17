@@ -10,8 +10,8 @@ W_PADY = 50
 W_WAIT_TIME = 3000
 
 # Button images
-B_BGR_RIGHT = "images/right.png"
-B_BGR_WRONG = "images/wrong.png"
+B_BGR_CHECK = "images/right.png"
+B_BGR_X = "images/wrong.png"
 
 class MainWindow:
     def __init__(self):
@@ -21,20 +21,24 @@ class MainWindow:
 
         self.flash_card = FlashCard()
 
-        self.btn_right = FlashButton(B_BGR_RIGHT, command=self.btn_clicked)
-        self.btn_wrong = FlashButton(B_BGR_WRONG, command=self.btn_clicked)
+        self.btn_check = FlashButton(B_BGR_CHECK, command=self.btn_check_clicked)
+        self.btn_x = FlashButton(B_BGR_X, command=self.btn_x_clicked)
 
         self.flash_card.grid(row=0, column=0, columnspan=2)
-        self.btn_wrong.grid(row=1, column=0)
-        self.btn_right.grid(row=1, column=1)
+        self.btn_x.grid(row=1, column=0)
+        self.btn_check.grid(row=1, column=1)
 
         self.data = Data()
         self.timer_action = None
 
     def get_new_card(self):
+        if self.timer_action:
+            self.window.after_cancel(self.timer_action)
         self.flash_card.set_words_pair(self.data.get_random_pair())
         self.timer_action = self.window.after(W_WAIT_TIME, self.flash_card.flip_card)
 
-    def btn_clicked(self):
-        self.window.after_cancel(self.timer_action)
+    def btn_x_clicked(self):
+        self.get_new_card()
+
+    def btn_check_clicked(self):
         self.get_new_card()
