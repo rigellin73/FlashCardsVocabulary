@@ -1,30 +1,21 @@
 import tkinter as tk
 from PIL import Image, ImageTk
-from flash_card import FlashCard, BGR_COLOR
+from flash_card import FlashCard
 from data import Data
-
-# Window settings
-W_TITLE = "Flashy"
-W_PADX = 50
-W_PADY = 50
-W_WAIT_TIME = 3000
-
-# Button images
-B_BGR_CHECK = "images/right.png"
-B_BGR_X = "images/wrong.png"
+import config as cfg
 
 class MainWindow:
     def __init__(self):
         self.window = tk.Tk()
-        self.window.title(W_TITLE)
-        self.window.config(padx=W_PADX, pady=W_PADY, bg=BGR_COLOR)
+        self.window.title(cfg.W_TITLE)
+        self.window.config(padx=cfg.W_PADX, pady=cfg.W_PADY, bg=cfg.BGR_COLOR)
 
         self.flash_card = FlashCard()
 
-        self.btn_check_bgr = ImageTk.PhotoImage(Image.open(B_BGR_CHECK))
+        self.btn_check_bgr = ImageTk.PhotoImage(Image.open(cfg.B_BGR_CHECK))
         self.btn_check = tk.Button(image=self.btn_check_bgr, highlightthickness=0, command=self.btn_check_clicked)
 
-        self.btn_x_bgr = ImageTk.PhotoImage(Image.open(B_BGR_X))
+        self.btn_x_bgr = ImageTk.PhotoImage(Image.open(cfg.B_BGR_X))
         self.btn_x = tk.Button(image=self.btn_x_bgr, highlightthickness=0, command=self.btn_x_clicked)
 
         self.flash_card.grid(row=0, column=0, columnspan=2)
@@ -45,7 +36,7 @@ class MainWindow:
         if self.data.has_words():
             self.current_pair = self.data.get_random_pair()
             self.flash_card.set_words_pair(self.current_pair)
-            self.timer_action = self.window.after(W_WAIT_TIME, self.flash_card.flip_card)
+            self.timer_action = self.window.after(cfg.W_WAIT_TIME, self.flash_card.flip_card)
         else:
             self.flash_card.set_endcard()
             self.btn_check.config(state="disabled")
