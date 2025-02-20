@@ -1,6 +1,6 @@
 import tkinter as tk
+from PIL import Image, ImageTk
 from flash_card import FlashCard, BGR_COLOR
-from flash_button import FlashButton
 from data import Data
 
 # Window settings
@@ -21,8 +21,11 @@ class MainWindow:
 
         self.flash_card = FlashCard()
 
-        self.btn_check = FlashButton(B_BGR_CHECK, command=self.btn_check_clicked)
-        self.btn_x = FlashButton(B_BGR_X, command=self.btn_x_clicked)
+        self.btn_check_bgr = ImageTk.PhotoImage(Image.open(B_BGR_CHECK))
+        self.btn_check = tk.Button(image=self.btn_check_bgr, highlightthickness=0, command=self.btn_check_clicked)
+
+        self.btn_x_bgr = ImageTk.PhotoImage(Image.open(B_BGR_X))
+        self.btn_x = tk.Button(image=self.btn_x_bgr, highlightthickness=0, command=self.btn_x_clicked)
 
         self.flash_card.grid(row=0, column=0, columnspan=2)
         self.btn_x.grid(row=1, column=0)
