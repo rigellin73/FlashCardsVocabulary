@@ -26,3 +26,6 @@ class Data:
         self.raw_data.drop(i, inplace=True)
         self.dictionary.remove(pair)
         self.raw_data.to_csv(TO_LEARN_FILE, index=False)
+
+    def has_words(self):
+        return len(self.dictionary) > 0

@@ -32,12 +32,21 @@ class MainWindow:
         self.current_pair = []
         self.timer_action = None
 
+        self.get_new_card()
+
+        self.window.mainloop()
+
     def get_new_card(self):
         if self.timer_action:
             self.window.after_cancel(self.timer_action)
-        self.current_pair = self.data.get_random_pair()
-        self.flash_card.set_words_pair(self.current_pair)
-        self.timer_action = self.window.after(W_WAIT_TIME, self.flash_card.flip_card)
+        if self.data.has_words():
+            self.current_pair = self.data.get_random_pair()
+            self.flash_card.set_words_pair(self.current_pair)
+            self.timer_action = self.window.after(W_WAIT_TIME, self.flash_card.flip_card)
+        else:
+            self.flash_card.set_endcard()
+            self.btn_check.config(state="disabled")
+            self.btn_x.config(state="disabled")
 
     def btn_x_clicked(self):
         self.get_new_card()
